@@ -1,41 +1,61 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import express from 'express';
+import morgan from 'morgan';
+import { renderFile } from 'ejs';
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// Database
+import { connectMongoose } from './lib/connectMongoose.js';
 
-var app = express();
+const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// Top level await disponible desde ES2022 en módulos
+const connection = await connectMongoose();
+console.log(`✅ Connected to MongoDB: ${connection.name}`);
 
-app.use(logger('dev'));
+// Middlewares básicos
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// View engine setup
+app.set('view engine', 'ejs');
+app.engine('html', renderFile);
+app.set('views', './views');
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// 3rd Party Middlewares
+app.use(morgan('dev'));
+
+// Setting Environment
+app.use((req, res, next) => {
+    res.locals.env = process.env.NODE_ENV || 'development';
+    res.locals.appName = 'Nodepop';
+    next();
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+/**
+ * Routes
+ ********/
+// Ruta temporal de prueba
+app.get('/', (req, res) => {
+    res.render('index', { title: 'Nodepop V0.1' });
 });
 
-module.exports = app;
+/**
+ * Error Handlers
+ ********/
+// 404 Error Handler
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// Server Error Handler
+app.use((err, req, res, next) => {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    
+    res.status(err.status || 500);
+    res.render('error');
+});
+
+export default app;
