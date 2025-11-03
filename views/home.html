@@ -1,0 +1,27 @@
+<%- include('_header.html') %>
+
+<main>
+  <section class="products">
+    <h2>Productos disponibles (<%= products.length %>)</h2>
+    
+    <% if (products.length === 0) { %>
+      <p>No hay productos disponibles.</p>
+    <% } else { %>
+      <div class="product-list">
+        <% products.forEach(product => { %>
+          <div class="product-card">
+            <h3><%= product.name %></h3>
+            <p class="price"><strong><%= product.price %>€</strong></p>
+            <p class="tags">
+              <% product.tags.forEach(tag => { %>
+                <span class="tag tag-<%= tag %>"><%= tag %></span>
+              <% }) %>
+            </p>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include('_footer.html') %>

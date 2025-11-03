@@ -5,6 +5,12 @@ import { renderFile } from 'ejs';
 // Database
 import { connectMongoose } from './lib/connectMongoose.js';
 
+// Controllers
+import  { productController } from './controllers/productController.js';
+
+// Middlewares
+import { notFoundErrorHandler, serverErrorHandler } from './lib/middewares/errorMiddleware.js';
+
 const app = express();
 
 // Top level await disponible desde ES2022 en módulos
@@ -31,31 +37,30 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
 /**
  * Routes
  ********/
 // Ruta temporal de prueba
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Nodepop V0.1' });
+// app.get('/', (req, res) => {
+//     res.render('index', { title: 'Nodepop V0.1' });
+// });
+app.get('/', productController.getAllProducts);
+
+app.get('/test-error', (req, res, next) => {
+    throw new Error('Error de prueba para ver el 500');
 });
+
+
+
 
 /**
  * Error Handlers
  ********/
 // 404 Error Handler
-app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+app.use(notFoundErrorHandler);
 
 // Server Error Handler
-app.use((err, req, res, next) => {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    
-    res.status(err.status || 500);
-    res.render('error');
-});
-
+app.use(serverErrorHandler);
 export default app;
