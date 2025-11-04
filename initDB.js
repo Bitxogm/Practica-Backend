@@ -1,6 +1,7 @@
 import readline from 'node:readline/promises';
 import { connectMongoose } from './lib/connectMongoose.js';
 import { Product } from './models/Product.js';
+import { User } from './models/User.js';  
 
 // Función para preguntar por consola
 async function ask(question) {
@@ -13,9 +14,36 @@ async function ask(question) {
     return result;
 }
 
+
 // Conectar a MongoDB
 const connection = await connectMongoose();
 console.log(`Connected to MongoDB: ${connection.name}`);
+
+
+// Función para inicializar usuarios
+async function seedUsers() {
+  console.log('\n👥 Borrando usuarios antiguos...');
+  const deleteResult = await User.deleteMany();
+  console.log(`✅ ${deleteResult.deletedCount} usuarios borrados`);
+
+  console.log('\n📦 Creando usuarios iniciales...');
+  
+  const users = [
+    { email: 'user@nodepop.com', password: await User.hashPassword('1234') },
+    { email: 'admin@nodepop.com', password: await User.hashPassword('1234') }
+  ];
+
+  await User.insertMany(users);
+  console.log(`✅ ${users.length} usuarios creados`);
+  
+  const allUsers = await User.find();
+  console.log('\n📋 Usuarios en la BD:');
+  console.table(allUsers.map(u => ({
+    Email: u.email,
+    Creado: u.createdAt
+  })));
+}
+
 
 //Mostratr productos actuales  enla base actual.
 console.log('\n📋 Productos actuales en la BD:');
@@ -33,7 +61,7 @@ if(existingProduts.length === 0) {
   };
 
 // Pregunta de seguridad
-const checkAnswer = await ask('¿Aceptas borrar los datos antiguos? (s/N) ');
+const checkAnswer = await ask('🤔 ¿Aceptas borrar los datos antiguos? (s/N) ');
 if (checkAnswer.toLowerCase() !== 's') {
   console.log('🚫 Operación cancelada');
   process.exit(0);
@@ -81,7 +109,7 @@ await Product.insertMany(products);
 
 console.log(`✅ ${products.length} productos cargados`);
 
-// Mostrar los productos cargados en tabla , no podemos usar foreach (p => {console.log(p.name, p.price, p.tags)})
+// Mostrar los productos cargados en tabla , no podemos usar forEach (p => {console.log(p.name, p.price, p.tags)})
 const allProducts = await Product.find();
 console.log('\n📋 Productos nuevos en la BD:');
 const newTableProducts = allProducts.map(p => ({
@@ -91,6 +119,8 @@ const newTableProducts = allProducts.map(p => ({
 }));
 
 console.table(newTableProducts);
+
+await seedUsers();
 
 await connection.close();
 process.exit(0);

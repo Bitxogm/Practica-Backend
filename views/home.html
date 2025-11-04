@@ -1,27 +1,37 @@
 <%- include('_header.html') %>
 
-<main>
-  <section class="products">
-    <h2>Productos disponibles (<%= products.length %>)</h2>
-    
-    <% if (products.length === 0) { %>
-      <p>No hay productos disponibles.</p>
-    <% } else { %>
-      <div class="product-list">
-        <% products.forEach(product => { %>
-          <div class="product-card">
-            <h3><%= product.name %></h3>
-            <p class="price"><strong><%= product.price %>€</strong></p>
-            <p class="tags">
-              <% product.tags.forEach(tag => { %>
-                <span class="tag tag-<%= tag %>"><%= tag %></span>
-              <% }) %>
-            </p>
+<div class="container my-4">
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Productos disponibles (<%= products.length %>)</h2>
+    </div>
+  </div>
+  
+  <% if (products.length === 0) { %>
+    <div class="alert alert-warning">
+      <p class="mb-0">No hay productos disponibles.</p>
+    </div>
+  <% } else { %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% products.forEach(product => { %>
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text">
+                <span class="badge bg-success fs-5"><%= product.price %>€</span>
+              </p>
+              <div>
+                <% product.tags.forEach(tag => { %>
+                  <span class="badge bg-primary me-1"><%= tag %></span>
+                <% }) %>
+              </div>
+            </div>
           </div>
-        <% }) %>
-      </div>
-    <% } %>
-  </section>
-</main>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
 
 <%- include('_footer.html') %>

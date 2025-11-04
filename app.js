@@ -5,11 +5,12 @@ import { renderFile } from 'ejs';
 // Database
 import { connectMongoose } from './lib/connectMongoose.js';
 
-// Controllers
-import  { productController } from './controllers/productController.js';
-
 // Middlewares
-import { notFoundErrorHandler, serverErrorHandler } from './lib/middewares/errorMiddleware.js';
+import { sessionMiddleware, sessionInViews } from './lib/middlewares/authMiddleware.js';
+import { serverErrorHandler, notFoundErrorHandler } from './lib/middlewares/errorMiddleware.js';
+
+// Routes
+import { router as webRouter } from './routes/webRoutes.js';
 
 const app = express();
 
@@ -30,6 +31,9 @@ app.set('views', './views');
 // 3rd Party Middlewares
 app.use(morgan('dev'));
 
+/**
+ * Custom Middlewares
+ */
 // Setting Environment
 app.use((req, res, next) => {
     res.locals.env = process.env.NODE_ENV || 'development';
@@ -37,30 +41,19 @@ app.use((req, res, next) => {
     next();
 });
 
-
+// Session Middlewares
+app.use(sessionMiddleware);
+app.use(sessionInViews);
 
 /**
  * Routes
  ********/
-// Ruta temporal de prueba
-// app.get('/', (req, res) => {
-//     res.render('index', { title: 'Nodepop V0.1' });
-// });
-app.get('/', productController.getAllProducts);
-
-app.get('/test-error', (req, res, next) => {
-    throw new Error('Error de prueba para ver el 500');
-});
-
-
-
+app.use('/', webRouter);
 
 /**
  * Error Handlers
  ********/
-// 404 Error Handler
 app.use(notFoundErrorHandler);
-
-// Server Error Handler
 app.use(serverErrorHandler);
+
 export default app;

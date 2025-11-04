@@ -5,14 +5,22 @@ html {
     font-family: 'Quicksand', sans-serif;
     font-weight: 400;
     overflow: hidden;
+  
 }
+
 p {
     font-family: 'Oxygen', sans-serif;
 }
-.subtitle{
+.error-image {
+    max-width: 400px;
+    height: auto;
+}
+
+.subtitle {
     font-size: 14px;
     color: #b3b3b3;
 }
+
 .writing {
     width: 320px;
     height: 200px;
@@ -22,7 +30,7 @@ p {
     position: relative;
 }
 
-.writing-error{
+.writing-error {
     width: 320px;
     height: 200px;
     border: 1px solid #bbbbbb;
@@ -36,57 +44,69 @@ p {
         transform: none;
         opacity: 1;
     }
+
     7% {
         transform: skew(-0.5deg, -0.9deg);
         opacity: 0.75;
     }
+
     10% {
         transform: none;
         opacity: 1;
     }
+
     27% {
         transform: none;
         opacity: 1;
     }
+
     30% {
         transform: skew(0.8deg, -0.1deg);
         opacity: 0.75;
     }
+
     35% {
         transform: none;
         opacity: 1;
     }
+
     52% {
         transform: none;
         opacity: 1;
     }
+
     55% {
         transform: skew(-1deg, 0.2deg);
         opacity: 0.75;
     }
+
     50% {
         transform: none;
         opacity: 1;
     }
+
     72% {
         transform: none;
         opacity: 1;
     }
+
     75% {
         transform: skew(0.4deg, 1deg);
         opacity: 0.75;
     }
+
     80% {
         transform: none;
         opacity: 1;
     }
+
     100% {
         transform: none;
         opacity: 1;
     }
 }
 
-.writing .topbar{
+.writing .topbar {
     position: absolute;
     width: 100%;
     height: 12px;
@@ -95,7 +115,7 @@ p {
     border-top-right-radius: 4px;
 }
 
-.writing .topbar div{
+.writing .topbar div {
     height: 6px;
     width: 6px;
     border-radius: 50%;
@@ -103,13 +123,15 @@ p {
     float: left;
 }
 
-.writing .topbar div.green{
+.writing .topbar div.green {
     background-color: #60d060;
 }
-.writing .topbar div.red{
+
+.writing .topbar div.red {
     background-color: red;
 }
-.writing .topbar div.yellow{
+
+.writing .topbar div.yellow {
     background-color: #e6c015;
 }
 
@@ -131,7 +153,7 @@ p {
     margin: 10px 0;
 }
 
-.errorLine{
+.errorLine {
     background-color: #c7151e !important;
     width: 0;
     height: 7px;
@@ -144,11 +166,11 @@ p {
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
     -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     height: 100vh;
     width: 100%;
     -webkit-transition: -webkit-transform .5s;
@@ -172,7 +194,7 @@ p {
 
 .pokeup:hover {
     -webkit-transform: translateY(-10px);
-            transform: translateY(-10px);
+    transform: translateY(-10px);
     -webkit-transition: .3s ease;
     transition: .3s ease;
 }
@@ -200,76 +222,76 @@ p {
 
 .perspec {
     -webkit-perspective: 1000px;
-            perspective: 1000px;
+    perspective: 1000px;
 }
 
-.writeLine{
+.writeLine {
     -webkit-animation: writeLine .4s linear forwards;
-            animation: writeLine .4s linear forwards;
+    animation: writeLine .4s linear forwards;
 }
 
-.explode{
+.explode {
     -webkit-animation: explode .5s ease-in-out forwards;
-            animation: explode .5s ease-in-out forwards;
+    animation: explode .5s ease-in-out forwards;
 }
 
 .card {
     -webkit-animation: tiltcard .5s ease-in-out 1s forwards;
-            animation: tiltcard .5s ease-in-out 1s forwards;
+    animation: tiltcard .5s ease-in-out 1s forwards;
     position: absolute;
 }
 
 @-webkit-keyframes tiltcard {
     0% {
         -webkit-transform: rotateY(0deg);
-                transform: rotateY(0deg);
+        transform: rotateY(0deg);
     }
 
     100% {
         -webkit-transform: rotateY(-30deg);
-                transform: rotateY(-30deg);
+        transform: rotateY(-30deg);
     }
 }
 
 @keyframes tiltcard {
     0% {
         -webkit-transform: rotateY(0deg);
-                transform: rotateY(0deg);
+        transform: rotateY(0deg);
     }
 
     100% {
         -webkit-transform: rotateY(-30deg);
-                transform: rotateY(-30deg);
+        transform: rotateY(-30deg);
     }
 }
 
 @-webkit-keyframes explode {
     0% {
         -webkit-transform: translate(0, 0) scale(1);
-                transform: translate(0, 0) scale(1);
+        transform: translate(0, 0) scale(1);
     }
 
     100% {
         -webkit-transform: translate(var(--spreaddist), var(--vertdist)) scale(var(--scaledist));
-                transform: translate(var(--spreaddist), var(--vertdist)) scale(var(--scaledist));
+        transform: translate(var(--spreaddist), var(--vertdist)) scale(var(--scaledist));
     }
 }
 
 @keyframes explode {
     0% {
         -webkit-transform: translate(0, 0) scale(1);
-                transform: translate(0, 0) scale(1);
+        transform: translate(0, 0) scale(1);
     }
 
     100% {
         -webkit-transform: translate(var(--spreaddist), var(--vertdist)) scale(var(--scaledist));
-                transform: translate(var(--spreaddist), var(--vertdist)) scale(var(--scaledist));
+        transform: translate(var(--spreaddist), var(--vertdist)) scale(var(--scaledist));
     }
 }
 
 @-webkit-keyframes writeLine {
     0% {
-        width:0;
+        width: 0;
     }
 
     100% {
@@ -279,7 +301,7 @@ p {
 
 @keyframes writeLine {
     0% {
-        width:0;
+        width: 0;
     }
 
     100% {
@@ -289,31 +311,31 @@ p {
 
 @media screen and (max-width: 1000px) {
     .container {
-      -webkit-transform: scale(.85);
-              transform: scale(.85);
+        -webkit-transform: scale(.85);
+        transform: scale(.85);
     }
-  }
+}
 
-  @media screen and (max-width: 850px) {
+@media screen and (max-width: 850px) {
     .container {
-      -webkit-transform: scale(.75);
-              transform: scale(.75);
+        -webkit-transform: scale(.75);
+        transform: scale(.75);
     }
-  }
+}
 
-  @media screen and (max-width: 775px) {
+@media screen and (max-width: 775px) {
     .container {
-      -ms-flex-wrap: wrap-reverse;
-          flex-wrap: wrap-reverse;
-      -webkit-box-align: inherit;
-          -ms-flex-align: inherit;
-              align-items: inherit;
+        -ms-flex-wrap: wrap-reverse;
+        flex-wrap: wrap-reverse;
+        -webkit-box-align: inherit;
+        -ms-flex-align: inherit;
+        align-items: inherit;
     }
-  }
+}
 
-  @media screen and (max-width: 370px) {
+@media screen and (max-width: 370px) {
     .container {
         -webkit-transform: scale(.6);
-                transform: scale(.6);
-      }
-  }
+        transform: scale(.6);
+    }
+}
