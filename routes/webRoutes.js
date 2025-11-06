@@ -41,6 +41,7 @@ router.get('/logout', loginController.logout);
  * Protected Routes (requieren login)
  */
 router.get('/', guard, productController.list);
+router.post('/products', guard, productController.create)
 
 /**
  * Test Routes (eliminar después)
