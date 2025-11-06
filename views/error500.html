@@ -1,161 +1,52 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="/stylesheets/error500.css">
-<link rel="stylesheet" type="text/css" href="/stylesheets/oxygen.fonts.css">
-
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>
-        <%= title %>
-    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || '500 - Error del Servidor' %></title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/error500.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/oxygen.fonts.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/error-pages.css">
+</head>
 
 <body>
-    <% if (env==='development' ) { %>
+    <!-- Banner de desarrollo -->
+    <% if (env === 'development') { %>
         <%- include('./_environment.html') %>
-            <% } %>
+    <% } %>
 
-                </head>
-                <div class="container">
-                    <div class="error">
-                        <h1>500</h1>
-                        <h2>error</h2>
-                        <p>Oh no, algo ha fallado. Intentalo de nuevo más tarde, si el problema continua, por favor,
-                            ponte en contacto
-                            con el administrador</p>
-                        <p class="subtitle">ERR_INTERNAL_SERVER_ERROR</p>
-                    </div>
+    <div class="container">
+        <!-- Sección de error -->
+        <div class="error">
+            <h1>500</h1>
+            <h2>error</h2>
+            <p>
+                Oh no, algo ha fallado. Inténtalo de nuevo más tarde. 
+                Si el problema continúa, por favor, ponte en contacto con el administrador.
+            </p>
+            <p class="subtitle">ERR_INTERNAL_SERVER_ERROR</p>
+            
+            <!-- Botones  -->
+            <div class="error-actions">
+                <a href="/" class="btn-home">Volver al inicio</a>
+                <button onclick="window.location.reload()" class="btn-retry">Reintentar</button>
+            </div>
+        </div>
 
+        <!-- Imagen de error -->
+        <div class="stack-container">
+            <img src="/assets/img/500_error.png" alt="Error 500" class="error-image pokeup">
+        </div>
 
-                    <!-- <div class="stack-container">
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 125px; --scaledist: .75; --vertdist: -25px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 100px; --scaledist: .8; --vertdist: -20px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist:75px; --scaledist: .85; --vertdist: -15px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 50px; --scaledist: .9; --vertdist: -10px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 25px; --scaledist: .95; --vertdist: -5px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 0px; --scaledist: 1; --vertdist: 0px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+        <!-- Footer -->
+        <footer>
+            <%- include('./_footer.html') %>
+        </footer>
+    </div>
 
-                    <div class="stack-container">
-                        <img src="/assets/img/500_error.png" alt="Error 500" class="error-image pokeup">
-                    </div>
-                    <footer>
-                        <%- include('./_footer.html') %>
-                    </footer>
-                </div>
-                <style>
-                    footer {
-                        position: fixed;
-                        bottom: 0;
-                        height: 40px;
-                        border-top-color: #33333342;
-                        border-top-style: solid;
-                        border-top-width: 1px;
-                        width: 100%;
-                    }
-
-                    p.copyright {
-                        position: absolute;
-                        margin: 0;
-                        top: 9px;
-                        width: 100%;
-                        color: #000000a3;
-                        font-size: 1em;
-                        text-align: center;
-                        bottom: 0;
-                    }
-                </style>
-                <script type="text/javascript" src="/assets/js/script.js"></script>
+    <!-- Scripts -->
+    <script type="text/javascript" src="/assets/js/script.js"></script>
+</body>
+</html>

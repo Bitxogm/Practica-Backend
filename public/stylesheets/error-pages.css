@@ -1,0 +1,99 @@
+/* Imagen de error */
+.error-image {
+    max-width: 400px;
+    height: auto;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: scale(0.9); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+/* Contenedor de botones */
+.error-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Botón principal - Volver al inicio */
+.btn-home {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff !important;
+    text-decoration: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-home:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+}
+
+.btn-home:active {
+    transform: translateY(-2px);
+}
+
+/* Botón  Reintentar */
+.btn-retry {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-retry:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px);
+}
+
+.btn-retry:active {
+    transform: translateY(-1px);
+}
+
+/* Footer de páginas de error */
+footer {
+    position: fixed;
+    bottom: 0;
+    height: 40px;
+    border-top: 1px solid #33333342;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+p.copyright {
+    margin: 0;
+    padding: 9px 0;
+    width: 100%;
+    color: #000000a3;
+    font-size: 1em;
+    text-align: center;
+}
