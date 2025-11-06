@@ -1,19 +1,18 @@
 import { Product } from '../models/Product.js';
 
 export const productController = {
-  
-  // GET / Obtener todos los productos
-  getAllProducts: async (req, res, next) => {
+
+  list: async (req, res, next) => {
     try {
-      const products = await Product.find();
-      
-      res.render('home.html', { 
-        title: 'Nodepop - Productos',
-        products 
-      });
-      
+      const products = await Product.find({
+        owner: req.session.userId
+      }).sort({createAd: -1});
+      res.render('home.html', {
+        title: 'Nodepop - Mis productos',
+        products
+      })
     } catch (error) {
-      next(error);
+      
     }
   }
   

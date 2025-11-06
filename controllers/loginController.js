@@ -22,7 +22,8 @@ export const loginController = {
                 return !res.render('login.html');
             }
 
-            req.session.userId = user.id;
+            req.session.userId = user._id;
+            req.session.userEmail = user.email;
 
             res.redirect( req.query.redir || '/' );
 

@@ -12,29 +12,35 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/"><%= appName %></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <% if (session && session.userId) { %>
-            <li class="nav-item">
-              <span class="navbar-text text-light me-3">
-                 <%= session.userEmail %>
-              </span>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Cerrar Sesión</a>
-            </li>
-          <% } else { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Iniciar Sesión</a>
-            </li>
-          <% } %>
-        </ul>
-      </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4" href="/">
+      <%= appName || 'Nodepop' %>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <% if (session && session.userId) { %>
+          <li class="nav-item d-flex align-items-center me-3">
+            <span class="badge bg-primary px-3 py-2">
+              👤 <%= session.userEmail %>
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-danger " href="/logout">
+              Cerrar Sesión
+            </a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="btn btn-primary" href="/login">
+              Iniciar Sesión
+            </a>
+          </li>
+        <% } %>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
