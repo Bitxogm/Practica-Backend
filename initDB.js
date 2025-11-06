@@ -1,7 +1,8 @@
 import readline from 'node:readline/promises';
 import { connectMongoose } from './lib/connectMongoose.js';
 import { Product } from './models/Product.js';
-import { User } from './models/User.js';  
+import { User } from './models/User.js';
+
 
 // Función para preguntar por consola
 async function ask(question) {
@@ -13,12 +14,6 @@ async function ask(question) {
     rl.close();
     return result;
 }
-
-
-// Conectar a MongoDB
-const connection = await connectMongoose();
-console.log(`Connected to MongoDB: ${connection.name}`);
-
 
 // Función para inicializar usuarios
 async function seedUsers() {
@@ -40,87 +35,107 @@ async function seedUsers() {
   console.log('\n📋 Usuarios en la BD:');
   console.table(allUsers.map(u => ({
     Email: u.email,
-    Creado: u.createdAt
+    Creado: u.createdAt.toLocaleDateString()
+  })));
+}
+
+// Función para inicializar productos
+async function seedProducts() {
+  console.log('\n📦 Borrando productos antiguos...');
+  const deleteResult = await Product.deleteMany();
+  console.log(`✅ ${deleteResult.deletedCount} productos borrados`);
+
+  console.log('\n📦 Cargando productos iniciales...');
+  
+  // Obtener usuarios para asignar productos
+  const [user, admin] = await Promise.all([
+    User.findOne({ email: 'user@nodepop.com' }),
+    User.findOne({ email: 'admin@nodepop.com' })
+  ]);
+
+  // Crear producto
+  const products = [
+    {
+      name: 'Bicicleta',
+      price: 230.15,
+      tags: ['lifestyle', 'motor'],
+      owner: user._id
+    },
+    {
+      name: 'iPhone 15 Pro',
+      price: 999.99,
+      tags: ['mobile', 'lifestyle'],
+      owner: user._id
+    },
+    {
+      name: 'MacBook Pro',
+      price: 2500.00,
+      tags: ['work', 'lifestyle'],
+      owner: admin._id
+    },
+    {
+      name: 'Tesla Model 3',
+      price: 45000.00,
+      tags: ['motor'],
+      owner: admin._id
+    },
+    {
+      name: 'Silla Gaming',
+      price: 350.00,
+      tags: ['work'],
+      owner: user._id
+    }
+  ];
+
+  await Product.insertMany(products);
+  console.log(`✅ ${products.length} productos insertados`);
+
+  // Mostrar los productos cargados con sus propietarios
+  const allProducts = await Product.find().populate('owner', 'email');
+  console.log('\n📋 Productos nuevos en la BD:');
+  console.table(allProducts.map(p => ({
+    Nombre: p.name,
+    Precio: `${p.price}€`,
+    Tags: p.tags.join(', '),
+    Propietario: p.owner.email
   })));
 }
 
 
-//Mostratr productos actuales  enla base actual.
+// Conectar a MongoDB
+const connection = await connectMongoose();
+console.log(`✅ Connected to MongoDB: ${connection.name}`);
+
+// Mostrar productos actuales antes de borrar
 console.log('\n📋 Productos actuales en la BD:');
-const existingProduts = await Product.find();
-if(existingProduts.length === 0) {
-  console.log('No hay productos en la BD');
+const existingProducts = await Product.find().populate('owner', 'email');
+
+if (existingProducts.length === 0) {
+  console.log('  (No hay productos)');
 } else {
-  const tableData = existingProduts.map(p => ({
-    Nombre : p.name,
-    Precio : `${p.price}$`,
+  const tableData = existingProducts.map(p => ({
+    Nombre: p.name,
+    Precio: `${p.price}€`,
     Tags: p.tags.join(', '),
+    Propietario: p.owner ? p.owner.email : 'Sin owner'
   }));
   console.table(tableData);
-  console.log(`\n Total: ${existingProduts.length} productos`)
-  };
+  console.log(`\n  Total: ${existingProducts.length} productos`);
+}
 
 // Pregunta de seguridad
-const checkAnswer = await ask('🤔 ¿Aceptas borrar los datos antiguos? (s/N) ');
+const checkAnswer = await ask('\n🤔 ¿Aceptas borrar estos datos? (s/N) ');
 if (checkAnswer.toLowerCase() !== 's') {
   console.log('🚫 Operación cancelada');
+  await connection.close();
   process.exit(0);
 }
 
-console.log('🗑️  Borrando datos antiguos...');
+console.log('\n🗑️  Iniciando proceso de limpieza y carga...');
 
-// Borrar todos los productos
-await Product.deleteMany();
-
-console.log(`✅ ${existingProduts.length} productos borrados`);
-
-console.log('📦 Cargando productos iniciales...');
-
-// Crear productos iniciales
-const products = [
-  {
-    name: 'Bicicleta',
-    price: 230.15,
-    tags: ['lifestyle', 'motor']
-  },
-  {
-    name: 'iPhone 15 Pro',
-    price: 999.99,
-    tags: ['mobile', 'lifestyle']
-  },
-  {
-    name: 'MacBook Pro',
-    price: 2500.00,
-    tags: ['work', 'lifestyle']
-  },
-  {
-    name: 'Tesla Model 3',
-    price: 45000.00,
-    tags: ['motor']
-  },
-  {
-    name: 'Silla Gaming',
-    price: 350.00,
-    tags: ['work']
-  }
-];
-
-await Product.insertMany(products);
-
-console.log(`✅ ${products.length} productos cargados`);
-
-// Mostrar los productos cargados en tabla , no podemos usar forEach (p => {console.log(p.name, p.price, p.tags)})
-const allProducts = await Product.find();
-console.log('\n📋 Productos nuevos en la BD:');
-const newTableProducts = allProducts.map(p => ({
-  Nombre: p.name,
-  Precio: `${p.price}$`,
-  Tags: p.tags.join(', ')
-}));
-
-console.table(newTableProducts);
-
-await seedUsers();
+await seedUsers();      
+await seedProducts();   
+console.log('\n✅ Proceso completado exitosamente');
 
 await connection.close();
 process.exit(0);
