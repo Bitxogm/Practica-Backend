@@ -6,7 +6,6 @@ import { productController } from '../controllers/productController.js';
 import { guard } from '../lib/middlewares/authMiddleware.js';
 import { validarResultados } from '../controllers/validarResultados.js';
 import { Product } from '../models/Product.js';
-import { User } from '../models/User.js';
 
 export const router = express.Router();
 
@@ -29,11 +28,8 @@ router.post('/login',
         .isLength({ min: 4 })
         .withMessage('Contraseña debe tener al menos 4 caracteres'),
 
-
-
     validarResultados,
     loginController.postLogin);
-
 
 router.get('/logout', loginController.logout);
 
@@ -41,8 +37,29 @@ router.get('/logout', loginController.logout);
  * Protected Routes (requieren login)
  */
 router.get('/', guard, productController.list);
-router.post('/products', guard, productController.create)
 
+router.post('/products', guard,
+    body('name', 'El nombre es requerido')
+        .notEmpty()
+        .bail()
+        .isLength({ min: 3 })
+        .withMessage('El nombre debe tener al menos 3 caracteres'),
+
+    body('price', 'El precio es requerido')
+        .notEmpty()
+        .bail()
+        .isFloat({ min: 0.01 })
+        .withMessage('El precio debe ser un número mayor a 0')
+        .toFloat(),
+
+    body('tags')
+        .optional()
+        .isString()
+        .withMessage('Los tags deben ser texto'),
+
+    validarResultados,
+    productController.create
+)
 /**
  * Test Routes (eliminar después)
  */
@@ -51,8 +68,8 @@ router.get('/test-error', (req, res, next) => {
 });
 
 //Ruta temporal probar productos owner
-router.get('/api/my-products' , guard, async (req, res, next) => {
-    try{
+router.get('/api/my-products', guard, async (req, res, next) => {
+    try {
         const products = await Product.find({
             owner: req.session.userId
         }).populate('owner', 'email');
@@ -63,7 +80,7 @@ router.get('/api/my-products' , guard, async (req, res, next) => {
             count: products.length,
             products: products
         });
-    }catch(error){
+    } catch (error) {
         next(error)
     }
 });
