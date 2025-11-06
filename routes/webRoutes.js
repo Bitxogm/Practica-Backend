@@ -34,9 +34,10 @@ router.post('/login',
 router.get('/logout', loginController.logout);
 
 /**
- * Protected Routes (requieren login)
+ * Protected Routes con Login
  */
 router.get('/', guard, productController.list);
+router.get('/products/new', guard, productController.createForm);
 
 router.post('/products', guard,
     body('name', 'El nombre es requerido')
