@@ -11,10 +11,10 @@
 
             <% if (errors) { %>
               <div class="alert alert-danger" role="alert">
-                <%= errors %>
+                <%- errors %>
               </div>
               <% } %>
-                <form method="POST" action="/products">
+                <form method="POST" action="/products" novalidate>
                   <!-- Nombre -->
                   <div class="mb-3">
                     <label for="name" class="form-label fw-bold">

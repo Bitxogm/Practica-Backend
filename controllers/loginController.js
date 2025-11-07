@@ -1,12 +1,20 @@
 import { User } from '../models/User.js';
 export const loginController = {
 
-    index: (req, res, next) => {
-        res.locals.errors = '';
-        res.locals.email = '';
-        res.render('login.html');
-    },
+  index: (req, res, next) => {
+    // 1. Leer los datos de la URL (Query Strings)
+    const { error, email } = req.query; 
 
+    // 2. Si hay errores, los separamos y los unimos con <br>
+    const errors = error ? error.split('|||').join('<br>') : null; 
+    
+    // 3. Renderizar la vista, pasando los datos
+    res.render('login.html', { // Asumiendo que 'login' es el nombre de tu vista
+        title: 'Iniciar Sesión',
+        errors: errors,   // Para mostrar la caja de error
+        email: email || '', // Para rellenar el campo de email si falla la validación
+    });
+},
     postLogin: async (req, res, next) => {
 
         try {

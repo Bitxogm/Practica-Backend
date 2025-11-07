@@ -1,5 +1,5 @@
 import express from 'express';
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 
 import { loginController } from '../controllers/loginController.js';
 import { productController } from '../controllers/productController.js';
@@ -28,7 +28,7 @@ router.post('/login',
         .isLength({ min: 4 })
         .withMessage('Contraseña debe tener al menos 4 caracteres'),
 
-    validarResultados,
+    validarResultados('/login'),
     loginController.postLogin);
 
 router.get('/logout', loginController.logout);
@@ -58,9 +58,17 @@ router.post('/products', guard,
         .isString()
         .withMessage('Los tags deben ser texto'),
 
-    validarResultados,
+    validarResultados('/products/new'),
     productController.create
-)
+);
+
+router.post('/products/delete/:id', guard,
+    param('id')
+        .isMongoId()
+        .withMessage('ID de producto inválido'),
+
+    validarResultados('/products/delete/:id'),
+    productController.delete);
 /**
  * Test Routes (eliminar después)
  */
