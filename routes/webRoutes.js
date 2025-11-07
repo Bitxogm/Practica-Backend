@@ -28,7 +28,7 @@ router.post('/login',
         .isLength({ min: 4 })
         .withMessage('Contraseña debe tener al menos 4 caracteres'),
 
-    validarResultados('/login'),
+    validarResultados,
     loginController.postLogin);
 
 router.get('/logout', loginController.logout);
@@ -58,7 +58,7 @@ router.post('/products', guard,
         .isString()
         .withMessage('Los tags deben ser texto'),
 
-    validarResultados('/products/new'),
+    validarResultados,
     productController.create
 );
 
@@ -67,7 +67,7 @@ router.post('/products/delete/:id', guard,
         .isMongoId()
         .withMessage('ID de producto inválido'),
 
-    validarResultados('/products/delete/:id'),
+    validarResultados,
     productController.delete);
 /**
  * Test Routes (eliminar después)

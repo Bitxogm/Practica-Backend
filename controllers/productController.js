@@ -128,7 +128,7 @@ export const productController = {
           //   message: 'Producto eliminado'
           // });
         }
-        res.redirect('/');
+        res.redirect('/?deleted=true');
     } catch (error) {
       next(error)
     }
