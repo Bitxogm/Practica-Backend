@@ -1,162 +1,131 @@
-<%- include('_header.html') %>
+<div class="d-flex flex-column ">
+  <%- include('_header.html') %>
 
-<div class="container my-4">
-  
-  <!-- **1. CONTENEDOR PRINCIPAL: TÍTULO, BOTÓN y FILTRO** -->
-  <div class="row mb-4 align-items-center">
-    
-    <!-- Columna Izquierda: Título y Botón de Filtro -->
-    <div class="col-12 col-md-6">
-      <h2>Productos Disponibles (<%= products.length %>)</h2>
+    <main class="container flex-grow-1 my-4">
 
-      <!-- Lógica para mostrar el filtro aplicado -->
-      <% if (query && Object.keys(query).length > 0) { %>
-        <p class="text-muted">
-          Filtrando por: 
-          <strong>
-            <% if (query.name) { %>Nombre, <% } %>
-            <% if (query.tags) { %>Tags, <% } %>
-            <% if (query.priceMin || query.priceMax) { %>Precio<% } %>
-          </strong>
-        </p>
-      <% } %>
+      <!-- **1. CONTENEDOR PRINCIPAL: TÍTULO, BOTÓN y FILTRO** -->
+      <div class="row mb-4 align-items-center">
 
-      <!-- Botón para abrir/cerrar filtros avanzados -->
-      <button 
-        class="btn btn-outline-info btn-sm mt-2" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target="#advancedFilters" 
-        aria-expanded="false" 
-        aria-controls="advancedFilters">
-        ⚙️ Filtros Avanzados
-      </button>
+        <!-- Columna Izquierda: Título y Botón de Filtro -->
+        <div class="col-12 col-md-6">
+          <h2>Productos Disponibles (<%= products.length %>)</h2>
 
-    </div>
+          <!-- Lógica para mostrar el filtro aplicado -->
+          <% if (query && Object.keys(query).length> 0) { %>
+            <p class="text-muted">
+              Filtrando por:
+              <strong>
+                <% if (query.name) { %>Nombre, <% } %>
+                    <% if (query.tags) { %>Tags, <% } %>
+                        <% if (query.priceMin || query.priceMax) { %>Precio<% } %>
+              </strong>
+            </p>
+            <% } %>
 
-    <!-- Columna Derecha: Botón Nuevo Producto -->
-    <div class="col-12 col-md-6 text-md-end mt-3 mt-md-0">
-      <a href="/products/new" class="btn btn-primary">
-        ➕ Nuevo Producto
-      </a>
-    </div>
-  </div>
+              <!-- Botón para abrir/cerrar filtros avanzados -->
+              <button class="btn btn-outline-info btn-sm mt-2" type="button" data-bs-toggle="collapse"
+                data-bs-target="#advancedFilters" aria-expanded="false" aria-controls="advancedFilters">
+                ⚙️ Filtros Avanzados
+              </button>
 
-  <!-- **1.1. FORMULARIO DE FILTROS AVANZADOS (COLLAPSE)** -->
-  <div class="collapse mb-4" id="advancedFilters">
-    <div class="card card-body shadow-sm">
-      <form action="/" method="GET">
-        <div class="row g-3">
-          
-          <!-- Filtro por Nombre -->
-          <div class="col-md-6">
-            <label for="name" class="form-label">Nombre del Producto</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="name" 
-              name="name" 
-              placeholder="Ej: Silla, MacBook"
-              value="<%= query.name || '' %>"
-            >
-          </div>
-
-          <!-- Filtro por Tags -->
-          <div class="col-md-6">
-            <label for="tags" class="form-label">Tags (separados por coma)</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="tags" 
-              name="tags" 
-              placeholder="Ej: motor, lifestyle, work"
-              value="<%= query.tags || '' %>"
-            >
-          </div>
-
-          <!-- Filtro por Precio Mínimo -->
-          <div class="col-md-4">
-            <label for="priceMin" class="form-label">Precio Mínimo (€)</label>
-            <input 
-              type="number" 
-              class="form-control" 
-              id="priceMin" 
-              name="priceMin" 
-              placeholder="Ej: 50"
-              value="<%= query.priceMin || '' %>"
-            >
-          </div>
-
-          <!-- Filtro por Precio Máximo -->
-          <div class="col-md-4">
-            <label for="priceMax" class="form-label">Precio Máximo (€)</label>
-            <input 
-              type="number" 
-              class="form-control" 
-              id="priceMax" 
-              name="priceMax" 
-              placeholder="Ej: 2000"
-              value="<%= query.priceMax || '' %>"
-            >
-          </div>
-          
-          <!-- Botón de Búsqueda -->
-          <div class="col-md-4 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary w-100">
-              🔍 Aplicar Filtros
-            </button>
-          </div>
         </div>
-      </form>
-    </div>
-  </div>
 
+        <!-- Columna Derecha: Botón Nuevo Producto -->
+        <div class="col-12 col-md-6 text-md-end mt-3 mt-md-0">
+          <a href="/products/new" class="btn btn-primary">
+            ➕ Nuevo Producto
+          </a>
+        </div>
+      </div>
 
+      <!-- **1.1. FORMULARIO DE FILTROS AVANZADOS (COLLAPSE)** -->
+      <div class="collapse mb-4" id="advancedFilters">
+        <div class="card card-body shadow-sm">
+          <form action="/" method="GET">
+            <div class="row g-3">
 
+              <!-- Filtro por Nombre -->
+              <div class="col-md-6">
+                <label for="name" class="form-label">Nombre del Producto</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Ej: Silla, MacBook"
+                  value="<%= query.name || '' %>">
+              </div>
 
+              <!-- Filtro por Tags -->
+              <div class="col-md-6">
+                <label for="tags" class="form-label">Tags (separados por coma)</label>
+                <input type="text" class="form-control" id="tags" name="tags" placeholder="Ej: motor, lifestyle, work"
+                  value="<%= query.tags || '' %>">
+              </div>
 
+              <!-- Filtro por Precio Mínimo -->
+              <div class="col-md-4">
+                <label for="priceMin" class="form-label">Precio Mínimo (€)</label>
+                <input type="number" class="form-control" id="priceMin" name="priceMin" placeholder="Ej: 50"
+                  value="<%= query.priceMin || '' %>">
+              </div>
 
+              <!-- Filtro por Precio Máximo -->
+              <div class="col-md-4">
+                <label for="priceMax" class="form-label">Precio Máximo (€)</label>
+                <input type="number" class="form-control" id="priceMax" name="priceMax" placeholder="Ej: 2000"
+                  value="<%= query.priceMax || '' %>">
+              </div>
 
-  
-  <!-- Lista de productos -->
-  <% if (products.length === 0) { %>
-    <div class="alert alert-info">
-      <p class="mb-0">No tienes productos todavía. <a href="/products/new">Crea tu primer producto</a></p>
-    </div>
-  <% } else { %>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      <% products.forEach(product => { %>
-        <div class="col">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title"><%= product.name %></h5>
-              <p class="card-text">
-                <span class="badge bg-success fs-5"><%= product.price %>€</span>
-              </p>
-              <div class="mb-3">
-                <% product.tags.forEach(tag => { %>
-                  <span class="badge bg-primary me-1"><%= tag %></span>
-                <% }) %>
+              <!-- Botón de Búsqueda -->
+              <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                  🔍 Aplicar Filtros
+                </button>
               </div>
             </div>
-            
-            <!-- Footer con botón de eliminar -->
-            <div class="card-footer bg-transparent border-0">
-              <form 
-                method="POST" 
-                action="/products/delete/<%= product._id %>" 
-                onsubmit="return confirm('¿Estás seguro de eliminar <%= product.name %>?')"
-                class="d-grid">
-                <button type="submit" class="btn btn-outline-danger">
-                  🗑️ Eliminar
-                </button>
-              </form>
-            </div>
-          </div>
+          </form>
         </div>
-      <% }) %>
-    </div>
-  <% } %>
+      </div>
+
+      <!-- Lista de productos -->
+      <% if (products.length===0) { %>
+        <div class="alert alert-info">
+          <p class="mb-0">No tienes productos todavía. <a href="/products/new">Crea tu primer producto</a></p>
+        </div>
+        <% } else { %>
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <% products.forEach(product=> { %>
+              <div class="col">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= product.name %>
+                    </h5>
+                    <p class="card-text">
+                      <span class="badge bg-success fs-5">
+                        <%= product.price %>€
+                      </span>
+                    </p>
+                    <div class="mb-3">
+                      <% product.tags.forEach(tag=> { %>
+                        <span class="badge bg-primary me-1">
+                          <%= tag %>
+                        </span>
+                        <% }) %>
+                    </div>
+                  </div>
+
+                  <!-- Footer con botón de eliminar -->
+                  <div class="card-footer bg-transparent border-0">
+                    <form method="POST" action="/products/delete/<%= product._id %>"
+                      onsubmit="return confirm('¿Estás seguro de eliminar <%= product.name %>?')" class="d-grid">
+                      <button type="submit" class="btn btn-outline-danger">
+                        🗑️ Eliminar
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+          </div>
+          <% } %>
+    </main>
 </div>
 
 <%- include('_footer.html') %>

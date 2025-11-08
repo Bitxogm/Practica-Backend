@@ -1,66 +1,67 @@
-<%- include('_header.html') %>
+<div class="d-flex flex-column ">
+  <%- include('_header.html') %>
 
-  <div class="container my-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="card shadow">
-          <div class="card-body p-4">
-            <h2 class="card-title text-center mb-4">
-              ➕ Nuevo Producto
-            </h2>
+    <main class="container flex-grow-1 my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card shadow">
+            <div class="card-body p-4">
+              <h2 class="card-title text-center mb-4">
+                ➕ Nuevo Producto
+              </h2>
 
-            <% if (errors) { %>
-              <div class="alert alert-danger" role="alert">
-                <%- errors %>
-              </div>
-              <% } %>
-                <form method="POST" action="/products" novalidate>
-                  <!-- Nombre -->
-                  <div class="mb-3">
-                    <label for="name" class="form-label fw-bold">
-                      Nombre del Producto <span class="text-danger">*</span>
-                    </label>
-                    <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required
-                      autofocus placeholder="Ej: iPhone 15 Pro">
-                  </div>
-
-                  <!-- Precio -->
-                  <div class="mb-3">
-                    <label for="price" class="form-label fw-bold">
-                      Precio (€) <span class="text-danger">*</span>
-                    </label>
-                    <input type="number" class="form-control" id="price" name="price" value="<%= product.price %>"
-                      step="0.01" min="0.01" required placeholder="999.99">
-                  </div>
-
-                  <!-- Tags -->
-                  <div class="mb-4">
-                    <label for="tags" class="form-label fw-bold">
-                      Etiquetas (opcional)
-                    </label>
-                    <input type="text" class="form-control" id="tags" name="tags" value="<%= product.tags.join(', ') %>"
-                      placeholder="gaming, lifestyle, work">
-                    <div class="form-text">
-                      Separa las etiquetas con comas
+              <% if (errors) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%- errors %>
+                </div>
+                <% } %>
+                  <form method="POST" action="/products" novalidate>
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                      <label for="name" class="form-label fw-bold">
+                        Nombre del Producto <span class="text-danger">*</span>
+                      </label>
+                      <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required
+                        autofocus placeholder="Ej: iPhone 15 Pro">
                     </div>
-                  </div>
 
-                  <!-- Botones -->
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                    <a href="/" class="btn btn-outline-danger">
-                       Cancelar
-                    </a>
-                    <button type="submit" class="btn btn-primary px-5">
-                      💾 Guardar Producto
-                    </button>
-                  </div>
+                    <!-- Precio -->
+                    <div class="mb-3">
+                      <label for="price" class="form-label fw-bold">
+                        Precio (€) <span class="text-danger">*</span>
+                      </label>
+                      <input type="number" class="form-control" id="price" name="price" value="<%= product.price %>"
+                        step="0.01" min="0.01" required placeholder="999.99">
+                    </div>
 
-                </form>
+                    <!-- Tags -->
+                    <div class="mb-4">
+                      <label for="tags" class="form-label fw-bold">
+                        Etiquetas (opcional)
+                      </label>
+                      <input type="text" class="form-control" id="tags" name="tags"
+                        value="<%= product.tags.join(', ') %>" placeholder="gaming, lifestyle, work">
+                      <div class="form-text">
+                        Separa las etiquetas con comas
+                      </div>
+                    </div>
 
+                    <!-- Botones -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                      <a href="/" class="btn btn-outline-danger">
+                        Cancelar
+                      </a>
+                      <button type="submit" class="btn btn-primary px-5">
+                        💾 Guardar Producto
+                      </button>
+                    </div>
+
+                  </form>
+
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <%- include('_footer.html') %>
+    </main>
+</div>
+<%- include('_footer.html') %>

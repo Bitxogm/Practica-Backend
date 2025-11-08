@@ -38,6 +38,9 @@ router.get('/logout', loginController.logout);
  * Protected Routes con Login
  */
 router.get('/', guard, productController.list);
+
+
+
 router.get('/products/new', guard, productController.createForm);
 
 router.post('/products', guard,

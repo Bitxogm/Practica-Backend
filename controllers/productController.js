@@ -96,15 +96,6 @@ export const productController = {
     try {
       const { name, price, tags } = req.body;
 
-      //Procesamos el array de tags , para separar por comas 
-      // const tagsArray = tags
-      //   ? tags
-      //     .split(',')
-      //     .map(tag => tag.trim())
-      //     .filter(tag => tag.length > 0)
-      //   : [];
-
-
       const product = new Product({
         name,
         price,
