@@ -2,53 +2,89 @@ import { Product } from '../models/Product.js';
 
 export const productController = {
 
-  //GET -Obtenre productos de cada usuario
+  //GET - Obtener productos de un usuariopor filtro
   list: async (req, res, next) => {
     try {
-      const products = await Product.find({
-        owner: req.session.userId
-      }).sort({ createdAd: -1 });
-      res.render('home.html', {
-        title: 'Nodepop - Mis productos',
-        products
-      })
+      //  Filtros
+      const filters = {
+        owner: req.session.userId  
+      };
+
+      // Filtro por tags 
+      if (req.query.tags) {
+        // Convertir string  a array 
+        const tagsArray = req.query.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+        if (tagsArray.length > 0) {
+          // Utilizamos $in para enncontrar productos con tags
+          filters.tags = { $in: tagsArray };
+        }
+      }
+
+      // Filtro por nombre con new RegExp para busqueda expresiones regulares ,'i para case insensitive
+      if (req.query.name) {
+        filters.name = new RegExp(req.query.name, 'i');
+      }
+
+      // Filtro por precio 
+      if (req.query.priceMin || req.query.priceMax) {
+        filters.price = {};
+        if (req.query.priceMin) {
+          // Aseguramos que sea un número flotante
+          filters.price.$gte = parseFloat(req.query.priceMin); // $gte = Greater Than or Equal
+        }
+        if (req.query.priceMax) {
+          // Aseguramos que sea un número flotante
+          filters.price.$lte = parseFloat(req.query.priceMax); // $lte = Less Than or Equal
+        }
+      }
+      
+      // Paginación 
+      // Usamos la API de Mongoose: find().sort().skip().limit().exec()
+      
+      const skip = parseInt(req.query.skip) || 0; // CVonvertimos a eentero , ya que viene como string de la URL
+      const limit = parseInt(req.query.limit) || 0; // 0 o no definido = sin límite
+
+      // Iiciamos la consulta de Mongoose , con los filtros quie hemos construido.
+      // .sort() , metiodo de Mongoose para ordenar , por orden de creacion
+      let query = Product.find(filters).sort({ createdAt: -1 });
+      
+      //  Paginación si los valores son válidos
+      if (skip > 0) {
+        query = query.skip(skip);
+      }
+      
+      if (limit > 0) {
+        query = query.limit(limit);
+      }
+
+      // Ejecutar la consulta con .exec()
+      // const products = await query.exec();
+      
+      //Ejecutar la consulta sin .exec()
+      const products = await query
+
+      // 4. Renderizar la vista
+      res.render('home.html', { 
+        title: 'Nodepop - Mis Productos',
+        products: products,
+        query: req.query // Pasar la query para mantener el estado de los filtros
+      });
+      
     } catch (error) {
-      next(error)
+      next(error);
     }
   },
 
-  //GET - Mostrar Formulario para crear productos
-  //   createForm: (req, res, next) => {
-  //   res.render('product-form.html', {
-  //     title: 'Nuevo Producto',
-  //     errors: '',
-  //     product: {
-  //       name: '',
-  //       price: '',
-  //       tags: []
-  //     }
-  //   });
-  // },
-
-  createForm: (req, res, next) => {
-
-    // 1. Leer los datos de la URL (Query Strings)
-    const { error, name, price, tags } = req.query;
-
-    // 2. Si hay errores en la URL, los separamos
-    const errors = error ? error.split('|||').join('<br>') : null;
-
-    // 3. Crear el objeto 'product' usando los datos de la URL si existen, o valores por defecto.
-    const product = {
-      name: name || '',
-      price: price || '',
-      tags: tags || [] // Lo pasamos como array vacío si no hay tags
-    };
-
+  // GET - Mostrar Formulario para crear productos
+    createForm: (req, res, next) => {
     res.render('product-form.html', {
       title: 'Nuevo Producto',
-      errors: errors, // Pasamos la cadena de errores o null
-      product: product // Pasamos el producto (con datos ingresados o vacío)
+      errors: '',
+      product: {
+        name: '',
+        price: '',
+        tags: []
+      }
     });
   },
 
@@ -58,19 +94,6 @@ export const productController = {
       const { name, price, tags } = req.body;
 
       //Procesamos el array de tags , para separar por comas 
-
-      //TODO: Refactorizar
-      // let  tagsArray = [];
-      // if(tags){
-      //   const tagsSeparados = tags.split(',');
-      //   for (const tag of tagsSeparados) {
-      //     const tagClean = tag.trim();
-      //     if(tagClean.length > 0) {
-      //       tagsArray.push(tagClean)
-      //     }
-      //   }
-      // }
-
       const tagsArray = tags
         ? tags
           .split(',')
@@ -90,19 +113,12 @@ export const productController = {
       console.log('✅ Producto creado:', product);
       res.redirect('/');
 
-      // res.status(201).json({
-      //   success: true,
-      //   message: 'Producto creado',
-      //   product
-      // });
-
     } catch (error) {
       next(error)
     }
   },
 
   //POST - Eliminar productos
-  //TODO : Probar ambas respuestas , json y navegador .....
   delete: async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -123,10 +139,6 @@ export const productController = {
 
       if(req.accepts('json')){
 
-        // res.status(200).json({
-          //   success: true,
-          //   message: 'Producto eliminado'
-          // });
         }
         res.redirect('/?deleted=true');
     } catch (error) {
@@ -134,4 +146,3 @@ export const productController = {
     }
   }
 }
-

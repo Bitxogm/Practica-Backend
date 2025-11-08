@@ -6,6 +6,7 @@ import { productController } from '../controllers/productController.js';
 import { guard } from '../lib/middlewares/authMiddleware.js';
 import { validarResultados } from '../controllers/validarResultados.js';
 import { Product } from '../models/Product.js';
+import { User } from '../models/User.js';
 
 export const router = express.Router();
 
@@ -69,6 +70,8 @@ router.post('/products/delete/:id', guard,
 
     validarResultados,
     productController.delete);
+
+    
 /**
  * Test Routes (eliminar después)
  */
@@ -94,3 +97,28 @@ router.get('/api/my-products', guard, async (req, res, next) => {
     }
 });
 
+router.get('/api/debug-products', async (req, res, next) => {
+  try {
+    const allProducts = await Product.find();
+    const users = await User.find();
+    
+    res.json({
+      session: {
+        userId: req.session.userId,
+        userEmail: req.session.userEmail
+      },
+      users: users.map(u => ({ 
+        id: u._id.toString(), 
+        email: u.email 
+      })),
+      products: allProducts.map(p => ({
+        id: p._id.toString(),
+        name: p.name,
+        owner: p.owner ? p.owner.toString() : null,
+        hasOwner: !!p.owner
+      }))
+    });
+  } catch (error) {
+    next(error);
+  }
+});

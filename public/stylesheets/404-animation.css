@@ -1,0 +1,174 @@
+/* -------------------------------------- */
+/* Global Reset and Typography */
+/* -------------------------------------- */
+
+/* Usamos Oxygen para el nuevo diseño, pero mantenemos Anonymous Pro como fallback si es necesario */
+.container-404 {
+    font-family: 'Oxygen', 'Anonymous Pro', monospace, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden; /* Evita barras de desplazamiento */
+    background-color: #f7f7f7;
+    text-align: center;
+}
+
+.error {
+    z-index: 10;
+    margin-bottom: 40px;
+}
+
+.error h1 {
+    font-size: 8rem;
+    font-weight: 700;
+    color: #e74c3c;
+    margin-bottom: 0;
+    line-height: 1;
+}
+
+.error h2 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #555;
+    margin-top: 0;
+}
+
+.error p {
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.error .subtitle {
+    font-size: 0.9rem;
+    color: #999;
+}
+
+.btn-home {
+    display: inline-block;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn-home:hover {
+    background-color: #34495e;
+}
+
+
+/* -------------------------------------- */
+/* Stack Animation Styles */
+/* -------------------------------------- */
+
+.stack-container {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    perspective: 800px; /* Perspectiva 3D para la animación */
+}
+
+.card-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.perspec {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: translateZ(var(--vertdist)) translateY(var(--spreaddist)) scale(var(--scaledist));
+    transition: transform 0.5s ease-out;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    overflow: hidden;
+    position: absolute;
+    transform: translateZ(0); /* Asegura que la carta base esté en Z=0 */
+    transition: box-shadow 0.3s ease-out;
+}
+
+.card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.writing {
+    padding: 15px;
+}
+
+.topbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.red, .yellow, .green {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.red { background-color: #e74c3c; }
+.yellow { background-color: #f39c12; }
+.green { background-color: #2ecc71; }
+
+.code {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centered svg {
+    width: 60px;
+    height: 60px;
+    color: #3498db; /* Color azul para el ícono de pregunta */
+}
+
+/* -------------------------------------- */
+/* Footer Styles (Tomado del código que proporcionaste) */
+/* -------------------------------------- */
+
+.error-page-footer {
+    position: fixed;
+    bottom: 0;
+    height: 40px;
+    border-top: 1px solid #33333342;
+    width: 100%;
+    background-color: #f7f7f7; /* Asegura que el fondo del footer sea visible */
+    z-index: 20;
+}
+
+.error-page-footer p.copyright {
+    position: absolute;
+    margin: 0;
+    top: 9px;
+    width: 100%;
+    color: #000000a3;
+    font-size: 1em;
+    text-align: center;
+    bottom: 0;
+}
+/* Aseguramos que el contenido del footer EJS (que incluye el texto de copyright en Nodepop)
+   se alinee al centro y use el estilo nuevo. */
+.error-page-footer > div, .error-page-footer > p { 
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    line-height: 40px;
+}

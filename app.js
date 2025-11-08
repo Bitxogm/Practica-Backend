@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
-// View engine setup
+// View engine 
 app.set('view engine', 'ejs');
 app.engine('html', renderFile);
 app.set('views', './views');

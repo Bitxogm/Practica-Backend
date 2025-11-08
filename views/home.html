@@ -1,17 +1,122 @@
 <%- include('_header.html') %>
 
 <div class="container my-4">
-  <!-- Header con título y botón de nuevo producto -->
-  <div class="row mb-4">
-    <div class="col">
-      <h2>Mis Productos (<%= products.length %>)</h2>
+  
+  <!-- **1. CONTENEDOR PRINCIPAL: TÍTULO, BOTÓN y FILTRO** -->
+  <div class="row mb-4 align-items-center">
+    
+    <!-- Columna Izquierda: Título y Botón de Filtro -->
+    <div class="col-12 col-md-6">
+      <h2>Productos Disponibles (<%= products.length %>)</h2>
+
+      <!-- Lógica para mostrar el filtro aplicado -->
+      <% if (query && Object.keys(query).length > 0) { %>
+        <p class="text-muted">
+          Filtrando por: 
+          <strong>
+            <% if (query.name) { %>Nombre, <% } %>
+            <% if (query.tags) { %>Tags, <% } %>
+            <% if (query.priceMin || query.priceMax) { %>Precio<% } %>
+          </strong>
+        </p>
+      <% } %>
+
+      <!-- Botón para abrir/cerrar filtros avanzados -->
+      <button 
+        class="btn btn-outline-info btn-sm mt-2" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#advancedFilters" 
+        aria-expanded="false" 
+        aria-controls="advancedFilters">
+        ⚙️ Filtros Avanzados
+      </button>
+
     </div>
-    <div class="col text-end">
+
+    <!-- Columna Derecha: Botón Nuevo Producto -->
+    <div class="col-12 col-md-6 text-md-end mt-3 mt-md-0">
       <a href="/products/new" class="btn btn-primary">
         ➕ Nuevo Producto
       </a>
     </div>
   </div>
+
+  <!-- **1.1. FORMULARIO DE FILTROS AVANZADOS (COLLAPSE)** -->
+  <div class="collapse mb-4" id="advancedFilters">
+    <div class="card card-body shadow-sm">
+      <form action="/" method="GET">
+        <div class="row g-3">
+          
+          <!-- Filtro por Nombre -->
+          <div class="col-md-6">
+            <label for="name" class="form-label">Nombre del Producto</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="name" 
+              name="name" 
+              placeholder="Ej: Silla, MacBook"
+              value="<%= query.name || '' %>"
+            >
+          </div>
+
+          <!-- Filtro por Tags -->
+          <div class="col-md-6">
+            <label for="tags" class="form-label">Tags (separados por coma)</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="tags" 
+              name="tags" 
+              placeholder="Ej: motor, lifestyle, work"
+              value="<%= query.tags || '' %>"
+            >
+          </div>
+
+          <!-- Filtro por Precio Mínimo -->
+          <div class="col-md-4">
+            <label for="priceMin" class="form-label">Precio Mínimo (€)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="priceMin" 
+              name="priceMin" 
+              placeholder="Ej: 50"
+              value="<%= query.priceMin || '' %>"
+            >
+          </div>
+
+          <!-- Filtro por Precio Máximo -->
+          <div class="col-md-4">
+            <label for="priceMax" class="form-label">Precio Máximo (€)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="priceMax" 
+              name="priceMax" 
+              placeholder="Ej: 2000"
+              value="<%= query.priceMax || '' %>"
+            >
+          </div>
+          
+          <!-- Botón de Búsqueda -->
+          <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+              🔍 Aplicar Filtros
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+
+
   
   <!-- Lista de productos -->
   <% if (products.length === 0) { %>

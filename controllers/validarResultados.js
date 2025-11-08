@@ -4,13 +4,12 @@ export const validarResultados = (req, res, next) => {
   const errors = validationResult(req);
   
   if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map(error => error.msg).join('. ');
+    const errorMessages = `
+  <ul class="mb-0">
+    ${errors.array().map(error => `<li>${error.msg}</li>`).join('')}
+  </ul>
+`;
 
-    // ============================================
-    // RUTAS WEB (renderizar HTML con errores)
-    // ============================================
-    
-    // LOGIN
     if (req.path === '/login') {
       return res.render('login.html', {
         title: 'Login - Nodepop',
@@ -32,11 +31,7 @@ export const validarResultados = (req, res, next) => {
       });
     }
 
-    // ============================================
-    // RUTAS API (devolver JSON)
-    // ============================================
-    
-    // Si el header Accept incluye application/json → API
+
     if (req.headers['accept']?.includes('application/json')) {
       return res.status(400).json({
         success: false,
@@ -49,13 +44,7 @@ export const validarResultados = (req, res, next) => {
         }))
       });
     }
-
-    // ============================================
-    // FALLBACK (por si acaso)
-    // ============================================
-    
     return res.status(400).send(errorMessages);
   }
-  
   next();
 };
