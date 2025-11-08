@@ -4,7 +4,7 @@ import { body, param } from 'express-validator';
 import { loginController } from '../controllers/loginController.js';
 import { productController } from '../controllers/productController.js';
 import { guard } from '../lib/middlewares/authMiddleware.js';
-import { validarResultados } from '../controllers/validarResultados.js';
+import { validateResults } from '../controllers/validateResults.js';
 import { Product } from '../models/Product.js';
 import { User } from '../models/User.js';
 
@@ -29,7 +29,7 @@ router.post('/login',
         .isLength({ min: 4 })
         .withMessage('Contraseña debe tener al menos 4 caracteres'),
 
-    validarResultados,
+    validateResults,
     loginController.postLogin);
 
 router.get('/logout', loginController.logout);
@@ -57,9 +57,23 @@ router.post('/products', guard,
     body('tags')
         .optional()
         .isString()
-        .withMessage('Los tags deben ser texto'),
+        .withMessage('Los tags deben ser un string')
+        .customSanitizer(value => {
+            if (typeof value === 'string') {
+                return value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+            }
+            return value;
+        })
+        .custom((tagArray) => {
+            // Este `tagArray` es el resultado del `customSanitizer` (un array de strings).
+            const allowedTags = ['work', 'motor', 'lifestyle', 'mobile'];
+            const invalidTags = tagArray.filter(tag => !allowedTags.includes(tag));
 
-    validarResultados,
+            return  invalidTags.length === 0 ;
+        })
+        .withMessage(`Los tags deber alguno de estos work, motor, lifestyle, mobile`),
+
+    validateResults,
     productController.create
 );
 
@@ -68,10 +82,10 @@ router.post('/products/delete/:id', guard,
         .isMongoId()
         .withMessage('ID de producto inválido'),
 
-    validarResultados,
+    validateResults,
     productController.delete);
 
-    
+
 /**
  * Test Routes (eliminar después)
  */
@@ -98,27 +112,27 @@ router.get('/api/my-products', guard, async (req, res, next) => {
 });
 
 router.get('/api/debug-products', async (req, res, next) => {
-  try {
-    const allProducts = await Product.find();
-    const users = await User.find();
-    
-    res.json({
-      session: {
-        userId: req.session.userId,
-        userEmail: req.session.userEmail
-      },
-      users: users.map(u => ({ 
-        id: u._id.toString(), 
-        email: u.email 
-      })),
-      products: allProducts.map(p => ({
-        id: p._id.toString(),
-        name: p.name,
-        owner: p.owner ? p.owner.toString() : null,
-        hasOwner: !!p.owner
-      }))
-    });
-  } catch (error) {
-    next(error);
-  }
+    try {
+        const allProducts = await Product.find();
+        const users = await User.find();
+
+        res.json({
+            session: {
+                userId: req.session.userId,
+                userEmail: req.session.userEmail
+            },
+            users: users.map(u => ({
+                id: u._id.toString(),
+                email: u.email
+            })),
+            products: allProducts.map(p => ({
+                id: p._id.toString(),
+                name: p.name,
+                owner: p.owner ? p.owner.toString() : null,
+                hasOwner: !!p.owner
+            }))
+        });
+    } catch (error) {
+        next(error);
+    }
 });

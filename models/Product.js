@@ -11,10 +11,11 @@ const productSchema = new Schema({
     required: true,
     index: true
   },
-  tags: {
-    type: [String],
+  tags: [{
+    type: String,
+    enum: ['work', 'motor', 'lifestyle', 'mobile'],
     index: true
-  },
+  }],
   owner: {                        
     type: Schema.Types.ObjectId,  
     ref: 'User',                  
@@ -27,7 +28,7 @@ const productSchema = new Schema({
 
 // Indice compuesto , para buscar productos de un usuario sin recorrer todos
 // productSchema.index({ owner: 1 });
-
+// productSchema.index({ tags: 1 });
 productSchema.index({ owner: 1, createdAt: -1 });
 
 export const Product = model('Product', productSchema);

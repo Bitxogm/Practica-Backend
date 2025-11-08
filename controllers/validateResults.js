@@ -1,6 +1,6 @@
 import { validationResult } from 'express-validator';
 
-export const validarResultados = (req, res, next) => {
+export const validateResults = (req, res, next) => {
   const errors = validationResult(req);
   
   if (!errors.isEmpty()) {
@@ -26,7 +26,7 @@ export const validarResultados = (req, res, next) => {
         product: {
           name: req.body.name || '',
           price: req.body.price || '',
-          tags: req.body.tags ? req.body.tags.split(',') : []
+          tags: req.body.tags || '' 
         }
       });
     }

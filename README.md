@@ -14,7 +14,6 @@ Simula un website SSR de un servicio de venta de artículos de segunda mano.
 1. Clonar el repositorio:
 ```bash
 git clone https://github.com/Bitxogm/Practica-Backend
-cd nodepop
 ```
 
 2. Instalar dependencias:

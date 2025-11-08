@@ -116,7 +116,7 @@ if (existingProducts.length === 0) {
   const tableData = existingProducts.map(p => ({
     Nombre: p.name,
     Precio: `${p.price}€`,
-    Tags: p.tags.join(', '),
+    Tags: (p.tags || []).join(', '),
     Propietario: p.owner ? p.owner.email : 'Sin owner'
   }));
   console.table(tableData);
