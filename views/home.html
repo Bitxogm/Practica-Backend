@@ -3,9 +3,8 @@
 
     <main class="container flex-grow-1 my-4">
 
-      <% 
-      const currentPage=Math.floor(skip / limit) + 1; const
-        totalPages=Math.ceil(totalProducts / limit); const hasPrevPage=skip> 0;
+      <% const currentPage=Math.floor(skip / limit) + 1; const totalPages=Math.ceil(totalProducts / limit); const
+        hasPrevPage=skip> 0;
         const hasNextPage = totalProducts > (skip + limit);
 
         const filterQuery = Object.keys(query)
@@ -32,7 +31,11 @@
                           <% if (query.priceMin || query.priceMax) { %>Precio<% } %>
                 </strong>
               </p>
+              <a href="/" class="btn btn-danger btn-sm me-2 mt-2">
+                🗑️ Limpiar Filtros
+              </a>
               <% } %>
+
 
                 <button class="btn btn-outline-info btn-sm mt-2" type="button" data-bs-toggle="collapse"
                   data-bs-target="#advancedFilters" aria-expanded="false" aria-controls="advancedFilters">
@@ -163,7 +166,9 @@
               </nav>
               <% } %>
                 <% } %>
+                
     </main>
 </div>
+
 
 <%- include('_footer.html') %>

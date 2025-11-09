@@ -50,7 +50,7 @@ export const productController = {
       const limitQuery = parseInt(req.query.limit) // Leemos lo que nos viene en la URL
 
       //Establecer limites para  consultas
-      const defaultLimit = 10;
+      const defaultLimit = 6;
       const maxLimit = 20;
 
       //LImite a usuariopor

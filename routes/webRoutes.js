@@ -14,7 +14,9 @@ export const router = express.Router();
  * Auth Routes
  */
 // GET /login , muestra formulario
+
 router.get('/login', loginController.index);
+
 router.post('/login',
     body('email', 'Email requerido')
         .notEmpty()
@@ -38,8 +40,6 @@ router.get('/logout', loginController.logout);
  * Protected Routes con Login
  */
 router.get('/', guard, productController.list);
-
-
 
 router.get('/products/new', guard, productController.createForm);
 
@@ -90,52 +90,9 @@ router.post('/products/delete/:id', guard,
 
 
 /**
- * Test Routes (eliminar después)
+ * Test Routes par probar error-500
  */
 router.get('/test-error', (req, res, next) => {
     throw new Error('Error de prueba para ver el 500');
 });
 
-//Ruta temporal probar productos owner
-router.get('/api/my-products', guard, async (req, res, next) => {
-    try {
-        const products = await Product.find({
-            owner: req.session.userId
-        }).populate('owner', 'email');
-
-        res.json({
-            success: true,
-            user: req.session.userEmail,
-            count: products.length,
-            products: products
-        });
-    } catch (error) {
-        next(error)
-    }
-});
-
-router.get('/api/debug-products', async (req, res, next) => {
-    try {
-        const allProducts = await Product.find();
-        const users = await User.find();
-
-        res.json({
-            session: {
-                userId: req.session.userId,
-                userEmail: req.session.userEmail
-            },
-            users: users.map(u => ({
-                id: u._id.toString(),
-                email: u.email
-            })),
-            products: allProducts.map(p => ({
-                id: p._id.toString(),
-                name: p.name,
-                owner: p.owner ? p.owner.toString() : null,
-                hasOwner: !!p.owner
-            }))
-        });
-    } catch (error) {
-        next(error);
-    }
-});

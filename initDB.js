@@ -79,23 +79,35 @@ async function seedProducts() {
     { name: 'Teléfono Fijo Vintage', price: 30.00, tags: ['lifestyle'], owner: user._id },
 
     // --- Productos asignados a admin@nodepop.com (Para la lista del otro usuario) ---
-    { name: 'Servidor Dell PowerEdge R640', price: 4500.00, tags: ['work'], owner: admin._id },
-    { name: 'Coche Deportivo Ford Mustang (2020)', price: 35000.00, tags: ['motor', 'lifestyle'], owner: admin._id },
-    { name: 'Kit de Realidad Virtual Meta Quest', price: 499.00, tags: ['mobile', 'lifestyle'], owner: admin._id },
-    { name: 'Licencia de Software Profesional Adobe', price: 1200.00, tags: ['work'], owner: admin._id },
+    { name: 'Drone DJI Mavic Pro 3', price: 1800.00, tags: ['lifestyle', 'mobile'], owner: admin._id },
+    { name: 'Tarjeta Gráfica RTX 4080', price: 1150.00, tags: ['work'], owner: admin._id },
+    { name: 'Silla Eames Lounge Original', price: 4500.00, tags: ['lifestyle'], owner: admin._id },
+    { name: 'Bicicleta Eléctrica Plegable', price: 950.00, tags: ['motor', 'lifestyle'], owner: admin._id },
+    { name: 'Impresora 3D Creality Ender 5', price: 380.00, tags: ['work'], owner: admin._id },
+    { name: 'Coche Clásico Porsche 911 (1980)', price: 75000.00, tags: ['motor'], owner: admin._id },
+    { name: 'Lente para Cámara Sony 70-200mm', price: 1300.00, tags: ['lifestyle'], owner: admin._id },
+    { name: 'Kit Arduino Mega y Sensores', price: 65.00, tags: ['work'], owner: admin._id },
+    { name: 'Altavoz Inteligente Google Home', price: 89.00, tags: ['mobile'], owner: admin._id },
+    { name: 'Monitor Curvo Samsung 34"', price: 420.00, tags: ['work', 'lifestyle'], owner: admin._id },
+    { name: 'Robot Aspirador iRobot Roomba', price: 299.00, tags: ['lifestyle'], owner: admin._id },
+    { name: 'Scooter Eléctrico Ninebot Max G2', price: 650.00, tags: ['motor', 'mobile'], owner: admin._id },
+    { name: 'Tablet Microsoft Surface Pro 9', price: 999.00, tags: ['work', 'mobile'], owner: admin._id },
+    { name: 'Mesa de Dibujo Digital Wacom', price: 750.00, tags: ['work'], owner: admin._id },
+    { name: 'Teléfono Satelital Iridium', price: 1500.00, tags: ['mobile'], owner: admin._id },
+    { name: 'Furgoneta Camperizada VW T6', price: 40000.00, tags: ['motor', 'lifestyle'], owner: admin._id }, 
   ];
-  await Product.insertMany(products);
-  console.log(`✅ ${products.length} productos insertados`);
+await Product.insertMany(products);
+console.log(`✅ ${products.length} productos insertados`);
 
-  // Mostrar los productos cargados con sus propietarios
-  const allProducts = await Product.find().populate('owner', 'email');
-  console.log('\n📋 Productos nuevos en la BD:');
-  console.table(allProducts.map(p => ({
-    Nombre: p.name,
-    Precio: `${p.price}€`,
-    Tags: p.tags.join(', '),
-    Propietario: p.owner.email
-  })));
+// Mostrar los productos cargados con sus propietarios
+const allProducts = await Product.find().populate('owner', 'email');
+console.log('\n📋 Productos nuevos en la BD:');
+console.table(allProducts.map(p => ({
+  Nombre: p.name,
+  Precio: `${p.price}€`,
+  Tags: p.tags.join(', '),
+  Propietario: p.owner.email
+})));
 }
 
 
