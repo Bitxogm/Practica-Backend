@@ -1,8 +1,8 @@
 import { Product } from '../models/Product.js';
 
 export const productController = {
-
-  //GET - Obtener productos de un usuariopor filtro
+ 
+  //GET - Obtener productos de un usuario por filtro
   list: async (req, res, next) => {
     try {
       //  Filtros
@@ -41,14 +41,28 @@ export const productController = {
         }
       }
 
+      //Antes de empezar la pagiancion , necesitamos obtener el numero total de roductos
+      const totalProducts = await Product.countDocuments(filters); 
+ 
       // Paginación 
       // Usamos la API de Mongoose: find().sort().skip().limit().exec()
+      const skip = parseInt(req.query.skip) || 0; // Convertimos a entero , ya que viene como string de la URL
+      const limitQuery = parseInt(req.query.limit) // Leemos lo que nos viene en la URL
 
-      const skip = parseInt(req.query.skip) || 0; // CVonvertimos a eentero , ya que viene como string de la URL
-      const limit = parseInt(req.query.limit) || 0; // 0 o no definido = sin límite
+      //Establecer limites para  consultas
+      const defaultLimit = 10;
+      const maxLimit = 20;
 
-      // Iiciamos la consulta de Mongoose , con los filtros quie hemos construido.
-      // .sort() , metiodo de Mongoose para ordenar , por orden de creacion
+      //LImite a usuariopor
+      let limitValue = defaultLimit;
+      if(!isNaN(limitQuery) && limitQuery > 0){
+        limitValue = limitQuery;
+      }
+
+      limitValue = Math.min(limitValue, maxLimit)
+
+      // Iniciamos la consulta de Mongoose , con los filtros quie hemos construido.
+      // .sort() , metodo de Mongoose para ordenar , por orden de creacion
       let query = Product.find(filters).sort({ createdAt: -1 });
 
       //  Paginación si los valores son válidos
@@ -56,21 +70,22 @@ export const productController = {
         query = query.skip(skip);
       }
 
-      if (limit > 0) {
-        query = query.limit(limit);
-      }
+      query = query.limit(limitValue);
 
       // Ejecutar la consulta con .exec()
-      // const products = await query.exec();
+      const products = await query.exec();
 
       //Ejecutar la consulta sin .exec()
-      const products = await query
+      // const products = await query
 
-      // 4. Renderizar la vista
+      // Renderizar la vista
       res.render('home.html', {
         title: 'Nodepop - Mis Productos',
         products: products,
-        query: req.query // Pasar la query para mantener el estado de los filtros
+        query: req.query,
+        limit: limitValue,
+        skip: skip,
+        totalProducts: totalProducts,
       });
 
     } catch (error) {

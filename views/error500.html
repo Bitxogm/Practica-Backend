@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title || '500 - Error del Servidor' %></title>
     
-    <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="/stylesheets/error500.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/oxygen.fonts.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/error-pages.css">
@@ -28,7 +27,6 @@
             </p>
             <p class="subtitle">ERR_INTERNAL_SERVER_ERROR</p>
             
-            <!-- Botones  -->
             <div class="error-actions">
                 <a href="/" class="btn-home">Volver al inicio</a>
                 <button onclick="window.location.reload()" class="btn-retry">Reintentar</button>
@@ -40,13 +38,10 @@
             <img src="/assets/img/500_error.png" alt="Error 500" class="error-image pokeup">
         </div>
 
-        <!-- Footer -->
         <footer>
             <%- include('./_footer.html') %>
         </footer>
     </div>
-
-    <!-- Scripts -->
     <script type="text/javascript" src="/assets/js/script.js"></script>
 </body>
 </html>

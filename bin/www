@@ -14,7 +14,6 @@ server.listen(PORT, () => {
     console.log(`✅ [${ENV.toUpperCase()}] Server Ready`);
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`☠️  Press CTRL + C to Stop Server`);
-    console.log('='.repeat(60) + '\n');
 });
 
 

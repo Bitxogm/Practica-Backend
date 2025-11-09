@@ -31,7 +31,6 @@ export const validateResults = (req, res, next) => {
       });
     }
 
-
     if (req.headers['accept']?.includes('application/json')) {
       return res.status(400).json({
         success: false,

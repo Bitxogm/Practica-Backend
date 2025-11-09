@@ -2,104 +2,82 @@
 
 <html lang="en">
 
-
 <head>
-
-
-    <!-- META -->
     <meta charset="utf-8">
     <meta name="robots" content="noodp">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <!-- PAGE TITLE -->
     <title>
         <%= title %>
     </title>
 
-    <!-- FAVICON -->
     <link rel="shortcut icon" href="assets/img/favicon.png">
-
-    <!-- FONTS -->
-    <!-- Se mantiene Anonymous Pro -->
     <link href="https://fonts.googleapis.com/css?family=Anonymous+Pro:400,700&amp;subset=latin-ext" rel="stylesheet">
-    <!-- Se agrega Oxygen, que se usa en el nuevo diseño -->
     <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
 
-    <!-- STYLESHEETS (Original Nodepop) -->
     <link rel="stylesheet" type="text/css" href="/assets/css/plugins.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/error-pages.css">
-    
-    <!-- NUEVOS ESTILOS PARA LA ANIMACIÓN DE CARTAS -->
+
     <link rel="stylesheet" type="text/css" href="/stylesheets/404-animation.css">
 
 </head>
-
 
 <body>
 
     <% if (env==='development' ) { %>
         <%- include('./_environment.html') %>
-    <% } %>
+            <% } %>
 
-    <!-- CONTENEDOR PRINCIPAL DEL ERROR (Nuevo Diseño) -->
-    <div class="container-404">
-        
-        <div class="error">
-            <h1>404</h1>
-            <h2>Error</h2>
-            <p>No hemos podido encontrar lo que estás buscando. Revisa la URL e inténtalo nuevamente.</p>
-            <p class="subtitle">ERR_NOT_FOUND</p>
-            <a href="/" class="btn-home">Volver al Inicio</a>
-        </div>
+                <div class="container-404">
 
-        <div class="stack-container">
-            <!-- La estructura de cartas es repetitiva y se usa para la animación 3D.
-                 Hemos cambiado el 'img src' a un icono SVG para evitar dependencias de archivos locales. -->
-            <% for (let i = 0; i < 6; i++) { %>
-                <div class="card-container">
-                    <div class="perspec" style="--spreaddist: <%= 125 - i * 25 %>px; --scaledist: <%= 0.75 + i * 0.05 %>; --vertdist: <%= -25 + i * 5 %>px;">
-                        <div class="card">
-                            <div class="writing">
-                                <div class="topbar">
-                                    <div class="red"></div>
-                                    <div class="yellow"></div>
-                                    <div class="green"></div>
-                                </div>
-                                <div class="code">
-                                    <div class="centered">
-                                        <!-- Icono de pregunta en SVG en lugar de 'sign_question.png' -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.41 12.37 13 13.1 13 14h-2c0-.55.22-1.05.59-1.42l1.63-1.66c.5-.51.84-1.15.84-1.87 0-1.21-.99-2.2-2.2-2.2-1.21 0-2.2.99-2.2 2.2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .77-.28 1.48-.75 2.04z"/>
-                                        </svg>
+                    <div class="error">
+                        <h1>404</h1>
+                        <h2>Error</h2>
+                        <p>No hemos podido encontrar lo que estás buscando. Revisa la URL e inténtalo nuevamente.</p>
+                        <p class="subtitle">ERR_NOT_FOUND</p>
+                        <a href="/" class="btn-home">Volver al Inicio</a>
+                    </div>
+
+                    <div class="stack-container">
+                        <% for (let i=0; i < 6; i++) { %>
+                            <div class="card-container">
+                                <div class="perspec"
+                                    style="--spreaddist: <%= 125 - i * 25 %>px; --scaledist: <%= 0.75 + i * 0.05 %>; --vertdist: <%= -25 + i * 5 %>px;">
+                                    <div class="card">
+                                        <div class="writing">
+                                            <div class="topbar">
+                                                <div class="red"></div>
+                                                <div class="yellow"></div>
+                                                <div class="green"></div>
+                                            </div>
+                                            <div class="code">
+                                                <div class="centered">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        fill="currentColor">
+                                                        <path
+                                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.41 12.37 13 13.1 13 14h-2c0-.55.22-1.05.59-1.42l1.63-1.66c.5-.51.84-1.15.84-1.87 0-1.21-.99-2.2-2.2-2.2-1.21 0-2.2.99-2.2 2.2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .77-.28 1.48-.75 2.04z" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <% } %>
                     </div>
+
+                    <footer class="error-page-footer">
+                        <%- include('./_footer.html') %>
+                    </footer>
+
                 </div>
-            <% } %>
-        </div>
 
-        <!-- FOOTER (Se mantiene la inclusión de EJS de Nodepop) -->
-        <footer class="error-page-footer">
-            <%- include('./_footer.html') %>
-        </footer>
-        <!-- /FOOTER -->
+                <script type="text/javascript" src="/assets/js/plugins.js"></script>
+                <script type="text/javascript" src="/assets/js/main.js"></script>
 
-    </div>
-    <!-- /CONTENEDOR PRINCIPAL DEL ERROR -->
-
-
-    <!-- JAVASCRIPTS (Original Nodepop) -->
-    <script type="text/javascript" src="/assets/js/plugins.js"></script>
-    <script type="text/javascript" src="/assets/js/main.js"></script>
-    
-    <!-- NUEVO SCRIPT PARA LA ANIMACIÓN DE CARTAS -->
-    <script type="text/javascript" src="/assets/js/404-animation.js"></script>
-
+                <script type="text/javascript" src="/assets/js/404-animation.js"></script>
 
 </body>
-
 
 </html>
