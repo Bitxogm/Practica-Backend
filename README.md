@@ -1,52 +1,6 @@
 # Nodepop
 
 Ejercicio del Módulo Backend con NodeJS + Express.
-Simula un website SSR de un servicio de venta de artículos de segunda mano.
-
-## 🖥️ Requisitos previos
-
-- Node.js v22.20.0 o superior
-- MongoDB instalado y corriendo
-- npm
-
-## ✈️ Instalación
-
-1. Clonar el repositorio:
-
-```bash
-git clone https://github.com/Bitxogm/Practica-Backend
-```
-
-2. Instalar dependencias:
-
-```bash
-npm install
-```
-
-3. Crear archivo `.env` en la raíz del proyecto con:
-
-```env
-MONGO_URI=mongodb://localhost:27017/nodepop
-PORT=3000
-NODE_ENV=development
-```
-
-## 🗄️ Inicializar la Base de Datos
-
-Cargar datos iniciales (productos de ejemplo):
-
-```bash
-npm run initDB
-```
-
-DOMINGO Otaku. ¡Claro que sí! Aquí tienes el README.md completo con todas las mejoras aplicadas, listo para copiar y pegar en formato Markdown. 🚀
-
-📄 README.md (Formato Markdown)
-Markdown
-
-# Nodepop
-
-Ejercicio del Módulo Backend con NodeJS + Express.
 Simula un website SSR (Server-Side Rendering) de un servicio de venta de artículos de segunda mano, con **autenticación basada en sesiones**, **paginación** y **filtrado avanzado** de productos.
 
 ## 🖥️ Requisitos previos
